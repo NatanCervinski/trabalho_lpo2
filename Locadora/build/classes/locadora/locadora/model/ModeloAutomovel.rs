@@ -1,0 +1,1 @@
+locadora.model.ModeloAutomovel
