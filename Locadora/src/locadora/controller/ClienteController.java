@@ -1,6 +1,7 @@
-package locadora.controler;
+package locadora.controller;
 
 import java.util.List;
+import java.util.Collections;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import locadora.model.Cliente;
@@ -28,31 +29,14 @@ public class ClienteController {
         }
     }
     
-    public void listarClientes(JTable tabelaCliente) {
+    public List<Cliente> listarClientes() {
         try {
-            // Limpa a tabela antes de adicionar os novos dados
-            DefaultTableModel model = (DefaultTableModel) tabelaCliente.getModel();
-            model.setRowCount(0);
-            
-            // Obtém a lista de clientes do banco de dados
             List<Cliente> clientes = clienteDao.getAll();
             
-            // Adiciona os clientes à tabela
-            for (Cliente cliente : clientes) {
-                model.addRow(new Object[] {
-                    cliente.getId(),
-                    cliente.getNome(),
-                    cliente.getSobrenome(),
-                    cliente.getRg(),
-                    cliente.getCpf(),
-                    cliente.getEndereco().getRua(),
-                    cliente.getEndereco().getNumero(),
-                    cliente.getEndereco().getComplemento()
-                });
-            }
+            return clientes;
         } catch (Exception ex) {
             ex.printStackTrace();
-            // Tratar exceções conforme necessário
+            return Collections.emptyList(); // Retorna uma lista vazia
         }
     }
     

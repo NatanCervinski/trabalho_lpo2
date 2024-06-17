@@ -6,7 +6,7 @@ package locadora.view;
 
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import locadora.controler.ClienteController;
+import locadora.controller.ClienteController;
 import locadora.model.Cliente;
 import locadora.model.Endereco;
 
@@ -367,8 +367,25 @@ public class CadastroCliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TabelaClienteMouseClicked
 
-     private void listarClientes() {
-        clienteController.listarClientes(TabelaCliente);
+    private void listarClientes() {
+
+        List<Cliente> clientes = clienteController.listarClientes();
+
+        // Limpa a tabela antes de adicionar os novos dados
+        DefaultTableModel model = (DefaultTableModel) TabelaCliente.getModel();
+        model.setRowCount(0);
+        for (Cliente cliente : clientes) {
+            model.addRow(new Object[]{
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getSobrenome(),
+                cliente.getRg(),
+                cliente.getCpf(),
+                cliente.getEndereco().getRua(),
+                cliente.getEndereco().getNumero(),
+                cliente.getEndereco().getComplemento()
+            });
+        }
     }
     
     /**
