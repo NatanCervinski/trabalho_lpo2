@@ -5,10 +5,12 @@
  */
 package locadora.controller;
 
+import javax.swing.JFrame;
 import locadora.model.dao.ClienteDao;
 import locadora.model.dao.DaoFactory;
 import locadora.model.dao.DaoType;
 import locadora.view.JanelaClienteView;
+import locadora.view.MenuView;
 
 /**
  *
@@ -16,9 +18,27 @@ import locadora.view.JanelaClienteView;
  */
 public class Main {
     public static void main(String[] args){
-        JanelaClienteView view = new JanelaClienteView();
-        ClienteDao modelDao = DaoFactory.getClienteDao(DaoType.SQL);
-        ClienteController controller = new ClienteController(view,modelDao);
+       
+
+        // Configurar a janela principal para a MenuView
+MenuController menuController = new MenuController();
+
+        // Criar a MenuView com a MenuController
+        MenuView menuView = new MenuView(menuController);
+
+        // Configurar a janela principal para a MenuView
+        JFrame frame = new JFrame("Sistema de Locadora"); 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        frame.getContentPane().add(menuView); 
+        frame.pack(); 
+        frame.setLocationRelativeTo(null); 
+        frame.setVisible(true);
+        
+    //   JanelaClienteView view = new JanelaClienteView();
+     //   ClienteDao modelDao = DaoFactory.getClienteDao(DaoType.SQL);
+      //  ClienteController controller = new ClienteController(view,modelDao);
+        
+        
         
     }
     
