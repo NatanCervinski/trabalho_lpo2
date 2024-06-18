@@ -1,18 +1,19 @@
-package locadora.model.dao;
+package locadora.model.dao.veiculo;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import locadora.model.Automovel;
-import locadora.model.Categoria;
-import locadora.model.Estado;
-import locadora.model.Marca;
-import locadora.model.ModeloAutomovel;
-import locadora.model.ModeloMotocicleta;
-import locadora.model.ModeloVan;
-import locadora.model.Motocicleta;
-import locadora.model.Van;
-import locadora.model.Veiculo;
+import locadora.model.veiculo.Automovel;
+import locadora.model.veiculo.Categoria;
+import locadora.model.cliente.Estado;
+import locadora.model.veiculo.Marca;
+import locadora.model.veiculo.ModeloAutomovel;
+import locadora.model.veiculo.ModeloMotocicleta;
+import locadora.model.veiculo.ModeloVan;
+import locadora.model.veiculo.Motocicleta;
+import locadora.model.veiculo.Van;
+import locadora.model.veiculo.Veiculo;
+import locadora.model.dao.ConnectionFactory;
 
 public class VeiculoDaoSql implements VeiculoDao {
     private ConnectionFactory connectionFactory;

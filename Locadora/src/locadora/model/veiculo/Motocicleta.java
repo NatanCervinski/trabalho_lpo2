@@ -1,4 +1,6 @@
-package locadora.model;
+package locadora.model.veiculo;
+
+import locadora.model.cliente.Estado;
 
 
 

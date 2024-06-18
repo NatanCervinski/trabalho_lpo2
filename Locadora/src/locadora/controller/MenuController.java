@@ -2,10 +2,10 @@ package locadora.controller;
 
 import locadora.view.cliente.JanelaClienteView;
 import locadora.view.veiculo.JanelaVeiculoView;
-import locadora.controller.ClienteController;
-import locadora.controller.VeiculoController;
-import locadora.model.dao.ClienteDao;
-import locadora.model.dao.VeiculoDao;
+import locadora.controller.cliente.ClienteController;
+import locadora.controller.veiculo.VeiculoController;
+import locadora.model.dao.cliente.ClienteDao;
+import locadora.model.dao.veiculo.VeiculoDao;
 import locadora.model.dao.DaoFactory;
 import locadora.model.dao.DaoType;
 

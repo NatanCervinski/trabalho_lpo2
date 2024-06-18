@@ -1,5 +1,6 @@
 package locadora.model;
 
+import locadora.model.cliente.Cliente;
 import java.util.Calendar;
 
 public class Locacao {

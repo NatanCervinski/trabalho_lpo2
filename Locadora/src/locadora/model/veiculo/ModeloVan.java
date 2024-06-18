@@ -1,4 +1,4 @@
-package locadora.model;
+package locadora.model.veiculo;
 
 
 

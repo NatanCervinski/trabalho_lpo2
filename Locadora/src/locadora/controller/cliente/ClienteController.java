@@ -1,9 +1,9 @@
-package locadora.controller;
+package locadora.controller.cliente;
 
 import java.util.List;
 import java.util.Collections;
-import locadora.model.Cliente;
-import locadora.model.dao.ClienteDao;
+import locadora.model.cliente.Cliente;
+import locadora.model.dao.cliente.ClienteDao;
 import locadora.view.cliente.JanelaClienteView;
 
 

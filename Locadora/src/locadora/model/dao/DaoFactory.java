@@ -4,6 +4,11 @@
  */
 package locadora.model.dao;
 
+import locadora.model.dao.veiculo.VeiculoDao;
+import locadora.model.dao.veiculo.VeiculoDaoSql;
+import locadora.model.dao.cliente.ClienteDaoSql;
+import locadora.model.dao.cliente.ClienteDao;
+
 
 
 

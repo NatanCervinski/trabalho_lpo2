@@ -1,6 +1,9 @@
-package locadora.model;
+package locadora.model.veiculo;
 
+import locadora.model.cliente.Estado;
+import locadora.model.cliente.Cliente;
 import java.util.Calendar;
+import locadora.model.Locacao;
 
 public abstract class Veiculo implements VeiculoI {
     private int id;

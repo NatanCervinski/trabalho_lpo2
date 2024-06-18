@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
-import locadora.model.Cliente;
-import locadora.model.Endereco;
+import locadora.model.cliente.Cliente;
+import locadora.model.cliente.Endereco;
 /**
  *
  * @author natan

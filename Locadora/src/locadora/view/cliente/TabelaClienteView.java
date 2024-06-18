@@ -7,7 +7,7 @@ package locadora.view.cliente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
-import locadora.model.Cliente;
+import locadora.model.cliente.Cliente;
 /**
  *
  * @author natan

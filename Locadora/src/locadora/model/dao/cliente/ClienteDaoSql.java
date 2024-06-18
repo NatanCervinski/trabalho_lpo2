@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package locadora.model.dao;
+package locadora.model.dao.cliente;
 
 import locadora.model.dao.ConnectionFactory;
 import java.sql.Connection;
@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
-import locadora.model.Cliente;
-import locadora.model.dao.ClienteDao;
-import locadora.model.Endereco;
+import locadora.model.cliente.Cliente;
+import locadora.model.dao.cliente.ClienteDao;
+import locadora.model.cliente.Endereco;
+import locadora.model.dao.ConnectionFactory;
 
 /**
  *

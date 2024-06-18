@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package locadora.model;
+package locadora.model.veiculo;
 
+import locadora.model.cliente.Estado;
+import locadora.model.cliente.Cliente;
 import java.util.Calendar;
+import locadora.model.Locacao;
 
 /**
  *

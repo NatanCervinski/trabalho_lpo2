@@ -4,8 +4,8 @@
  */
 package locadora.view.cliente;
 
-import locadora.controller.ClienteController;
-import locadora.model.Cliente;
+import locadora.controller.cliente.ClienteController;
+import locadora.model.cliente.Cliente;
 import java.util.List;
 import javax.swing.JOptionPane;
 /**

@@ -4,7 +4,7 @@
  */
 package locadora.view.cliente;
 
-import locadora.controller.ClienteController;
+import locadora.controller.cliente.ClienteController;
 
 /**
  *

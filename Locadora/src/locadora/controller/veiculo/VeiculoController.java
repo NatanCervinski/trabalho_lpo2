@@ -1,9 +1,9 @@
-package locadora.controller;
+package locadora.controller.veiculo;
 
-import locadora.model.Veiculo;
+import locadora.model.veiculo.Veiculo;
 import locadora.model.dao.ConnectionFactory;
-import locadora.model.dao.VeiculoDao;
-import locadora.model.dao.VeiculoDao;
+import locadora.model.dao.veiculo.VeiculoDao;
+import locadora.model.dao.veiculo.VeiculoDao;
 import locadora.view.veiculo.JanelaVeiculoView;
 
 import javax.swing.DefaultComboBoxModel;
