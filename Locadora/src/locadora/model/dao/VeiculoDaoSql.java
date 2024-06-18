@@ -15,16 +15,40 @@ import locadora.model.Van;
 import locadora.model.Veiculo;
 
 public class VeiculoDaoSql implements VeiculoDao {
+    private ConnectionFactory connectionFactory;
+    
+    private final String insert = "INSERT INTO veiculo (marca, estado, categoria, valorDeCompra, placa, ano, tipo, modeloAutomovel, modeloMotocicleta, modeloVan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    
     private Connection connection;
 
     public VeiculoDaoSql(Connection connection) {
         this.connection = connection;
     }
+    
+    private static VeiculoDaoSql dao;
+    
+    private VeiculoDaoSql(){
+    }
+    
+    public static VeiculoDaoSql getVeiculoDaoSql(){
+        if(dao==null)
+            return dao = new VeiculoDaoSql();
+        else
+            return dao;
+    } 
+    
+    public VeiculoDaoSql(ConnectionFactory conFactory) {
+        this.connectionFactory = conFactory;
+    }
 
     @Override
     public void add(Veiculo veiculo) throws Exception {
-        String sql = "INSERT INTO veiculo (marca, estado, categoria, valorDeCompra, placa, ano, tipo, modeloAutomovel, modeloMotocicleta, modeloVan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        
+        try (Connection connection=ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+            )
+        {
             stmt.setString(1, veiculo.getMarca().name());
             stmt.setString(2, veiculo.getEstado().name());
             stmt.setString(3, veiculo.getCategoria().name());
@@ -45,7 +69,8 @@ public class VeiculoDaoSql implements VeiculoDao {
                 stmt.setNull(9, Types.VARCHAR);
                 stmt.setString(10, ((Van) veiculo).getModelo().name());
             }
-            stmt.executeUpdate();
+            stmt.execute();
+            
         }
     }
 

@@ -57,11 +57,11 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="locadora.view.FormularioClienteView" name="formularioClienteView">
+    <Component class="locadora.view.cliente.FormularioClienteView" name="formularioClienteView">
     </Component>
-    <Component class="locadora.view.BotoesClienteView" name="botoesClienteView">
+    <Component class="locadora.view.cliente.BotoesClienteView" name="botoesClienteView">
     </Component>
-    <Component class="locadora.view.TabelaClienteView" name="tabelaClienteView">
+    <Component class="locadora.view.cliente.TabelaClienteView" name="tabelaClienteView">
     </Component>
   </SubComponents>
 </Form>

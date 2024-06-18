@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Collections;
 import locadora.model.Cliente;
 import locadora.model.dao.ClienteDao;
-import locadora.view.JanelaClienteView;
+import locadora.view.cliente.JanelaClienteView;
 
 
 public class ClienteController {
