@@ -2,21 +2,26 @@ package locadora.controller;
 
 import locadora.model.Veiculo;
 import locadora.model.dao.ConnectionFactory;
-import locadora.model.dao.VeiculoDaoSql;
+import locadora.model.dao.VeiculoDao;
+import locadora.model.dao.VeiculoDao;
+import locadora.view.veiculo.JanelaVeiculoView;
 
 import javax.swing.DefaultComboBoxModel;
 import java.sql.Connection;
 
 public class VeiculoController {
-    private VeiculoDaoSql veiculoDao;
+    private VeiculoDao veiculoDao;
+    private JanelaVeiculoView view;
 
-    public VeiculoController() {
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            veiculoDao = new VeiculoDaoSql(connection);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public VeiculoController(JanelaVeiculoView view, VeiculoDao VeiculoDao) {
+        this.veiculoDao = VeiculoDao;
+        this.view = view;
+        initController();
+    }
+    
+    private void initController(){
+        this.view.setController(this);
+        this.view.initView();
     }
 
     public DefaultComboBoxModel<String> getModelOptions(String tipo) {
@@ -32,7 +37,14 @@ public class VeiculoController {
         }
     }
 
-    public void addVeiculo(Veiculo veiculo) throws Exception {
-        veiculoDao.add(veiculo);
+    public void criarVeiculo(){
+        try {
+            Veiculo veiculo = view.getVeiculoFormulario();
+            
+            veiculoDao.add(veiculo);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            view.apresentaErro("Erro ao criar cliente.");
+        }
     }
 }

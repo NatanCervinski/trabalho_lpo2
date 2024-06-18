@@ -1,13 +1,9 @@
 
-package locadora.view;
+package locadora.view.veiculo;
 
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
-import javax.swing.text.MaskFormatter;
 import locadora.controller.VeiculoController;
 import locadora.model.Automovel;
 import locadora.model.Categoria;
@@ -19,23 +15,102 @@ import locadora.model.ModeloVan;
 import locadora.model.Motocicleta;
 import locadora.model.Van;
 import locadora.model.Veiculo;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
+import java.text.DecimalFormat;
 
-
-public class CadastroVeiculoView extends javax.swing.JFrame {
+public class JanelaVeiculoView extends javax.swing.JFrame {
 
     
     private VeiculoController veiculoController;
 
-    public CadastroVeiculoView() {
+    public JanelaVeiculoView() {
         initComponents();
-        veiculoController = new VeiculoController();
+        ajustaCampos();
+    }
+    
+    private void ajustaCampos(){
         boxTipoActionPerformed(null);
         campoPlaca();
-      //  campoValor();
+        campoValor();
     }
 
     
+    public void setController(VeiculoController controller) {
+        this.btnSalvar.addActionListener(e -> controller.criarVeiculo());
+    }
+    
+    public void initView() {
+        java.awt.EventQueue.invokeLater(() ->  this.setVisible(true));
+    }
+    
+    
+    public Veiculo getVeiculoFormulario() {
+        String tipo = (String) boxTipo.getSelectedItem();
+        Marca marca = Marca.valueOf((String) boxMarca.getSelectedItem());
+        Estado estado = Estado.valueOf((String) boxEstado.getSelectedItem());
+        Categoria categoria = Categoria.valueOf((String) boxCategoria.getSelectedItem());
+        double valorDeCompra = Double.parseDouble(labelValorCompra.getText().replace(",", ""));
+        String placa = labelPlaca.getText();
+        int ano = Integer.parseInt(labelAno.getText());
+        String modelo = (String) boxModelo.getSelectedItem();
 
+        Veiculo veiculo = null;
+        switch (tipo) {
+            case "Automovel":
+                veiculo = new Automovel(marca, estado, categoria, valorDeCompra, placa, ano, ModeloAutomovel.valueOf(modelo));
+                break;
+            case "Motocicleta":
+                veiculo = new Motocicleta(marca, estado, categoria, valorDeCompra, placa, ano, ModeloMotocicleta.valueOf(modelo));
+                break;
+            case "Van":
+                veiculo = new Van(marca, estado, categoria, valorDeCompra, placa, ano, ModeloVan.valueOf(modelo));
+                break;
+        }
+        return veiculo;
+    }
+    
+    public void apresentaErro(String erro) {        
+        JOptionPane.showMessageDialog(null,erro + "\n", "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    private void campoPlaca() {
+        try {
+            MaskFormatter mask = new MaskFormatter("UUU-####");
+            mask.install(labelPlaca);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "FAVOR INSERIR A PLACA NO FORMATO UUU-####", "ERRO", JOptionPane.ERROR);
+        }
+    }
+
+    private void campoValor() {
+        try {
+            DecimalFormat decimal = new DecimalFormat("#,###.00");
+            NumberFormatter numFormatter = new NumberFormatter(decimal);
+            numFormatter.setValueClass(Double.class);
+            numFormatter.setMinimum(0.0);
+            numFormatter.setMaximum(Double.MAX_VALUE);
+            numFormatter.setAllowsInvalid(false);
+
+            labelValorCompra.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(numFormatter));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    
+    public DefaultComboBoxModel<String> getModelOptions(String tipo) {
+        switch (tipo) {
+            case "Automovel":
+                return new DefaultComboBoxModel<>(new String[] { "Gol", "Celta", "Palio", "Fiesta", "Civic", "Corolla" });
+            case "Motocicleta":
+                return new DefaultComboBoxModel<>(new String[] { "CG125", "CBR500", "Ninja300", "XJ6" });
+            case "Van":
+                return new DefaultComboBoxModel<>(new String[] { "Kombi", "Sprinter", "Ducato" });
+            default:
+                return new DefaultComboBoxModel<>(new String[] {});
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -122,6 +197,12 @@ public class CadastroVeiculoView extends javax.swing.JFrame {
         labelPlaca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 labelPlacaActionPerformed(evt);
+            }
+        });
+
+        labelValorCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                labelValorCompraActionPerformed(evt);
             }
         });
 
@@ -213,40 +294,13 @@ public class CadastroVeiculoView extends javax.swing.JFrame {
     }//GEN-LAST:event_boxCategoriaActionPerformed
 
     private void boxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxTipoActionPerformed
-            String selectedTipo = (String) boxTipo.getSelectedItem();
-    DefaultComboBoxModel<String> modelOptions = veiculoController.getModelOptions(selectedTipo);
-    boxModelo.setModel(modelOptions);
+        String selectedTipo = (String) boxTipo.getSelectedItem();
+        DefaultComboBoxModel<String> modelOptions = getModelOptions(selectedTipo);
+        boxModelo.setModel(modelOptions);
     }//GEN-LAST:event_boxTipoActionPerformed
-
+    
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        try {
-            String tipo = (String) boxTipo.getSelectedItem();
-            Marca marca = Marca.valueOf((String) boxMarca.getSelectedItem());
-            Estado estado = Estado.valueOf((String) boxEstado.getSelectedItem());
-            Categoria categoria = Categoria.valueOf((String) boxCategoria.getSelectedItem());
-            double valorDeCompra = Double.parseDouble(labelValorCompra.getText());
-            String placa = labelPlaca.getText();
-            int ano = Integer.parseInt(labelAno.getText());
-            String modelo = (String) boxModelo.getSelectedItem();
 
-            Veiculo veiculo = null;
-            switch (tipo) {
-                case "Automovel":
-                    veiculo = new Automovel(marca, estado, categoria, valorDeCompra, placa, ano, ModeloAutomovel.valueOf(modelo));
-                    break;
-                case "Motocicleta":
-                    veiculo = new Motocicleta(marca, estado, categoria, valorDeCompra, placa, ano, ModeloMotocicleta.valueOf(modelo));
-                    break;
-                case "Van":
-                    veiculo = new Van(marca, estado, categoria, valorDeCompra, placa, ano, ModeloVan.valueOf(modelo));
-                    break;
-            }
-
-            veiculoController.addVeiculo(veiculo);
-            JOptionPane.showMessageDialog(this, "Veículo salvo com sucesso!");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar veículo: " + e.getMessage());
-        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void boxModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxModeloActionPerformed
@@ -256,22 +310,10 @@ public class CadastroVeiculoView extends javax.swing.JFrame {
     private void labelPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labelPlacaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_labelPlacaActionPerformed
-private void campoPlaca(){
-        try {
-            MaskFormatter mask = new MaskFormatter("UUU-####");
-            mask.install(labelPlaca);
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "FAVOR INSERIR A PLACA NO FORMATO UUU-####", "ERRO", JOptionPane.ERROR);
-        }
-}
-   /* private void campoValor(){
-        try {
-            MaskFormatter mask = new MaskFormatter("R$#####,##");
-            mask.install(labelValorCompra);
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao inserir valor", "ERRO", JOptionPane.ERROR);
-        }
-} */
+
+    private void labelValorCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labelValorCompraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_labelValorCompraActionPerformed
     
     /**
      * @param args the command line arguments
@@ -290,21 +332,23 @@ private void campoPlaca(){
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastroVeiculoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaVeiculoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastroVeiculoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaVeiculoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastroVeiculoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaVeiculoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastroVeiculoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaVeiculoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CadastroVeiculoView().setVisible(true);
+                new JanelaVeiculoView().setVisible(true);
             }
         });
     }

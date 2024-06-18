@@ -264,6 +264,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="labelValorCompra">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="labelValorCompraActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

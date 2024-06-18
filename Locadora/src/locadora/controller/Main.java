@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import locadora.model.dao.ClienteDao;
 import locadora.model.dao.DaoFactory;
 import locadora.model.dao.DaoType;
-import locadora.view.JanelaClienteView;
+import locadora.view.cliente.JanelaClienteView;
 import locadora.view.MenuView;
 
 /**
@@ -18,10 +18,8 @@ import locadora.view.MenuView;
  */
 public class Main {
     public static void main(String[] args){
-       
-
         // Configurar a janela principal para a MenuView
-MenuController menuController = new MenuController();
+        MenuController menuController = new MenuController();
 
         // Criar a MenuView com a MenuController
         MenuView menuView = new MenuView(menuController);

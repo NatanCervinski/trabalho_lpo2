@@ -4,8 +4,8 @@
  */
 package locadora.view;
 import locadora.controller.MenuController;
-import locadora.view.JanelaClienteView;
-import locadora.view.CadastroVeiculoView;
+import locadora.view.cliente.JanelaClienteView;
+import locadora.view.veiculo.JanelaVeiculoView;
 /**
  *
  * @author Cristhian
@@ -106,8 +106,7 @@ public class MenuView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadClienteActionPerformed
-
-     menuController.abrirJanelaCliente();
+        menuController.abrirJanelaCliente();
     }//GEN-LAST:event_btnCadClienteActionPerformed
 
     private void btnVenVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenVeiculoActionPerformed
@@ -115,8 +114,7 @@ public class MenuView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnVenVeiculoActionPerformed
 
     private void btnCadVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadVeiculoActionPerformed
-          CadastroVeiculoView veiculoView = new CadastroVeiculoView();
-    veiculoView.setVisible(true);
+        menuController.abrirJanelaVeiculo();
     }//GEN-LAST:event_btnCadVeiculoActionPerformed
 
     private void btnAluVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAluVeiculoActionPerformed

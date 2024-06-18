@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package locadora.view;
+package locadora.view.cliente;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

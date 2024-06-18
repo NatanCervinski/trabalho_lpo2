@@ -33,13 +33,12 @@ public class DaoFactory {
         }
     } */
    
-    public static ClienteDao getClienteDao(DaoType type){
-        switch(type){
-            case SQL : 
-                return ClienteDaoSql.getClienteDaoSql();
-            default:
-                throw new RuntimeException("Tipo não existe:"+type);
-        }
+    public static ClienteDao getClienteDao(){
+        return ClienteDaoSql.getClienteDaoSql();
+    }
+    
+    public static VeiculoDao getVeiculoDao(){
+        return VeiculoDaoSql.getVeiculoDaoSql();
     }
     /*
      public static DisciplinaDao getDisciplinaDao(DaoType type){

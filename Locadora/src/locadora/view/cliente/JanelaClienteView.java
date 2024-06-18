@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package locadora.view;
+package locadora.view.cliente;
 
 import locadora.controller.ClienteController;
 import locadora.model.Cliente;
@@ -22,7 +22,6 @@ public class JanelaClienteView extends javax.swing.JFrame {
     }
     
     public void setController(ClienteController controller) {
-        System.out.println("locadora.controller.ClienteController.criarCliente()");
         botoesClienteView.setController(controller);
     }
     
@@ -95,9 +94,9 @@ public class JanelaClienteView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        formularioClienteView = new locadora.view.FormularioClienteView();
-        botoesClienteView = new locadora.view.BotoesClienteView();
-        tabelaClienteView = new locadora.view.TabelaClienteView();
+        formularioClienteView = new locadora.view.cliente.FormularioClienteView();
+        botoesClienteView = new locadora.view.cliente.BotoesClienteView();
+        tabelaClienteView = new locadora.view.cliente.TabelaClienteView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -169,8 +168,8 @@ public class JanelaClienteView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private locadora.view.BotoesClienteView botoesClienteView;
-    private locadora.view.FormularioClienteView formularioClienteView;
-    private locadora.view.TabelaClienteView tabelaClienteView;
+    private locadora.view.cliente.BotoesClienteView botoesClienteView;
+    private locadora.view.cliente.FormularioClienteView formularioClienteView;
+    private locadora.view.cliente.TabelaClienteView tabelaClienteView;
     // End of variables declaration//GEN-END:variables
 }

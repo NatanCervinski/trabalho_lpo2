@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package locadora.view;
+package locadora.view.cliente;
 
 import locadora.controller.ClienteController;
 
@@ -95,11 +95,9 @@ public class BotoesClienteView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
     public void setController(ClienteController controller) {
-        
         this.botaoCriar.addActionListener(e -> controller.criarCliente());
         this.botaoAtualizar.addActionListener(e -> controller.atualizarCliente());
         this.botaoExcluir.addActionListener(e -> controller.excluirCliente());
         this.botaoListar.addActionListener(e -> controller.listarClientes());
-
     }
 }
