@@ -166,12 +166,12 @@ public void add(Cliente cliente) throws Exception {
         } 
     }
    @Override
-public void delete(Cliente cliente) throws Exception {
-    String deleteEndereco = "DELETE FROM endereco WHERE cliente_id = ?";
-    try (Connection connection = ConnectionFactory.getConnection();
-         PreparedStatement stmtExcluirEndereco = connection.prepareStatement(deleteEndereco);
-         PreparedStatement stmtExcluirCliente = connection.prepareStatement(delete);
-    ) {
+    public void delete(Cliente cliente) throws Exception {
+        String deleteEndereco = "DELETE FROM endereco WHERE cliente_id = ?";
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmtExcluirEndereco = connection.prepareStatement(deleteEndereco);
+            PreparedStatement stmtExcluirCliente = connection.prepareStatement(delete);
+        ) {
         connection.setAutoCommit(false);
         
       
@@ -185,7 +185,15 @@ public void delete(Cliente cliente) throws Exception {
         connection.setAutoCommit(true);
         cliente.setId(-1);
     }
-}  
+    
+}
+    @Override
+    public void delete(List<Cliente> clientes) throws Exception {
+        for(Cliente cliente:clientes){
+            delete(cliente);
+        }
+    }
+    
     @Override
     public void deleteAll() throws Exception {
         

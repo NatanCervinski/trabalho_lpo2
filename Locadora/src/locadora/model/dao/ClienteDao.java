@@ -13,5 +13,5 @@ import locadora.model.Cliente;
  */
 public interface ClienteDao extends Dao<Cliente>{
   //  public List<Disciplina> getDisciplinasByProfessor(Cliente professor) throws Exception;    
-
+    public void delete(List<Cliente> lista) throws Exception; 
 }

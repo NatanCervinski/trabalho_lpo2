@@ -2,64 +2,75 @@ package locadora.controller;
 
 import java.util.List;
 import java.util.Collections;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import locadora.model.Cliente;
-import locadora.model.Endereco;
-import locadora.model.dao.ClienteDaoSql;
+import locadora.model.dao.ClienteDao;
+import locadora.view.JanelaClienteView;
+
 
 public class ClienteController {
+    private JanelaClienteView view;
+    private ClienteDao clienteDao;
     
-    private final ClienteDaoSql clienteDao;
-    
-    public ClienteController() {
-        this.clienteDao = ClienteDaoSql.getClienteDaoSql(); // Obtém a instância do DAO
+    public ClienteController(JanelaClienteView view, ClienteDao ClienteDao) {
+        this.clienteDao = ClienteDao; // Obtém a instância do DAO
+        this.view = view;
+        initController();
     }
     
-    public void criarCliente(String nome, String sobrenome, String rg, String cpf, String rua, String numero, String complemento) {
+    private void initController(){
+        this.view.setController(this);
+        this.view.initView();
+    }
+    
+    public void criarCliente() {
         try {
-            // Cria o objeto Cliente com os dados informados
-            Cliente cliente = new Cliente(0, nome, sobrenome, rg, cpf, new Endereco(rua, numero, complemento));
+            Cliente cliente = view.getClienteFormulario();
             
-            // Chama o método do DAO para adicionar o cliente ao banco de dados
             clienteDao.add(cliente);
         } catch (Exception ex) {
             ex.printStackTrace();
-            // Tratar exceções conforme necessário
+            view.apresentaErro("Erro ao criar cliente.");
+
         }
     }
     
-    public List<Cliente> listarClientes() {
+    public void listarClientes() {
         try {
-            List<Cliente> clientes = clienteDao.getAll();
+            view.limparClienteAtualizar();
             
-            return clientes;
+            List<Cliente> lista = this.clienteDao.getAll();
+            
+            view.mostrarListaClientes(lista);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return Collections.emptyList(); // Retorna uma lista vazia
         }
     }
     
-    public void excluirCliente(long id) {
-        try {
-            // Cria um objeto Cliente apenas com o ID para passar ao método de exclusão
-            Cliente cliente = new Cliente(id, "", "", "", "", null);
-            
-            // Chama o método do DAO para excluir o cliente do banco de dados
-            clienteDao.delete(cliente);
+    public void excluirCliente() {
+        try {            
+            List<Cliente> listaParaExcluir = view.getClientesParaExcluir();
+
+            clienteDao.delete(listaParaExcluir);
+            view.excluirClientesView(listaParaExcluir);
         } catch (Exception ex) {
             ex.printStackTrace();
-            // Tratar exceções conforme necessário
+            view.apresentaErro("Erro ao excluir clientes.");
+
         }
     }
     
-    public void atualizarCliente(Cliente cliente) {
+    public void atualizarCliente() {
         try {
-            // Chama o método do DAO para atualizar os dados do cliente no banco de dados
+            Cliente cliente = view.getClienteParaAtualizar();
+            if(cliente==null){
+                view.apresentaInfo("Selecione um contato na tabela para atualizar.");
+                return;
+            }
             clienteDao.update(cliente);
+            view.atualizarCliente(cliente);
         } catch (Exception ex) {
             ex.printStackTrace();
-            // Tratar exceções conforme necessário
+            view.apresentaErro("Erro ao atualizar cliente.");
         }
     }
     
