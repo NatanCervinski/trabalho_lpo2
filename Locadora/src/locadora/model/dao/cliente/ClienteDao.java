@@ -15,4 +15,5 @@ import locadora.model.dao.Dao;
 public interface ClienteDao extends Dao<Cliente>{
   //  public List<Disciplina> getDisciplinasByProfessor(Cliente professor) throws Exception;    
     public void delete(List<Cliente> lista) throws Exception; 
+    public List<Cliente> getByNomeSobrenomeCpf(String nome, String sobrneome, String cpf) throws Exception;
 }

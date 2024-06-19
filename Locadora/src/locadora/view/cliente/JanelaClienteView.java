@@ -8,6 +8,7 @@ import locadora.controller.cliente.ClienteController;
 import locadora.model.cliente.Cliente;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 /**
  *
  * @author natan
@@ -28,6 +29,7 @@ public class JanelaClienteView extends javax.swing.JFrame {
     public void initView() {
         /* Create and display the form */
         tabelaClienteView.setJanelaView(this);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         java.awt.EventQueue.invokeLater(() ->  this.setVisible(true));
     }
 

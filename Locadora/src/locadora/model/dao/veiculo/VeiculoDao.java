@@ -4,13 +4,16 @@
  */
 package locadora.model.dao.veiculo;
 
+import java.util.List;
 import locadora.model.veiculo.Veiculo;
 import locadora.model.dao.Dao;
+import locadora.model.veiculo.Categoria;
+import locadora.model.veiculo.Marca;
 
 /**
  *
  * @author Cristhian
  */
 public interface VeiculoDao  extends Dao<Veiculo>{
-    
+    public List<Veiculo> getByTipoMarcaCategoria(String tipo, Marca marca, Categoria categoria) throws Exception;
 }

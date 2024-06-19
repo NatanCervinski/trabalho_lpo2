@@ -8,6 +8,8 @@ import locadora.model.dao.veiculo.VeiculoDao;
 import locadora.model.dao.veiculo.VeiculoDaoSql;
 import locadora.model.dao.cliente.ClienteDaoSql;
 import locadora.model.dao.cliente.ClienteDao;
+import locadora.model.dao.locacao.LocacaoDao;
+import locadora.model.dao.locacao.LocacaoDaoSql;
 
 
 
@@ -44,6 +46,10 @@ public class DaoFactory {
     
     public static VeiculoDao getVeiculoDao(){
         return VeiculoDaoSql.getVeiculoDaoSql();
+    }
+    
+    public static LocacaoDao getLocacaoDao(){
+        return LocacaoDaoSql.getLocacaoDaoSql();
     }
     /*
      public static DisciplinaDao getDisciplinaDao(DaoType type){

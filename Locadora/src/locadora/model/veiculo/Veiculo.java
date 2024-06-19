@@ -3,10 +3,10 @@ package locadora.model.veiculo;
 import locadora.model.cliente.Estado;
 import locadora.model.cliente.Cliente;
 import java.util.Calendar;
-import locadora.model.Locacao;
+import locadora.model.locacao.Locacao;
 
 public abstract class Veiculo implements VeiculoI {
-    private int id;
+    private long id;
     private Marca marca;
     private Estado estado;
     private Locacao locacao;
@@ -15,7 +15,8 @@ public abstract class Veiculo implements VeiculoI {
     private String placa;
     private int ano;
 
-    public Veiculo(Marca marca, Estado estado, Categoria categoria, double valorDeCompra, String placa, int ano) {
+    public Veiculo(long id,Marca marca, Estado estado, Categoria categoria, double valorDeCompra, String placa, int ano) {
+        this.id = id;
         this.marca = marca;
         this.estado = estado;
         this.categoria = categoria;
@@ -29,7 +30,7 @@ public abstract class Veiculo implements VeiculoI {
     public void locar(int dias, Calendar data, Cliente cliente) {
         this.estado = Estado.LOCADO;
         double valor = dias * getValorDiariaLocacao();
-        this.locacao = new Locacao(dias, valor, data, cliente);
+        this.locacao = new Locacao(-1, dias, valor, data, cliente, this);
     }
 
     @Override
@@ -43,7 +44,7 @@ public abstract class Veiculo implements VeiculoI {
         this.locacao = null;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

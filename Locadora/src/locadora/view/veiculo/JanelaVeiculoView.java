@@ -18,6 +18,7 @@ import locadora.model.veiculo.Veiculo;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 import java.text.DecimalFormat;
+import javax.swing.WindowConstants;
 
 public class JanelaVeiculoView extends javax.swing.JFrame {
 
@@ -41,6 +42,7 @@ public class JanelaVeiculoView extends javax.swing.JFrame {
     }
     
     public void initView() {
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         java.awt.EventQueue.invokeLater(() ->  this.setVisible(true));
     }
     
@@ -58,13 +60,13 @@ public class JanelaVeiculoView extends javax.swing.JFrame {
         Veiculo veiculo = null;
         switch (tipo) {
             case "Automovel":
-                veiculo = new Automovel(marca, estado, categoria, valorDeCompra, placa, ano, ModeloAutomovel.valueOf(modelo));
+                veiculo = new Automovel(-1, marca, estado, categoria, valorDeCompra, placa, ano, ModeloAutomovel.valueOf(modelo));
                 break;
             case "Motocicleta":
-                veiculo = new Motocicleta(marca, estado, categoria, valorDeCompra, placa, ano, ModeloMotocicleta.valueOf(modelo));
+                veiculo = new Motocicleta(-1, marca, estado, categoria, valorDeCompra, placa, ano, ModeloMotocicleta.valueOf(modelo));
                 break;
             case "Van":
-                veiculo = new Van(marca, estado, categoria, valorDeCompra, placa, ano, ModeloVan.valueOf(modelo));
+                veiculo = new Van(-1, marca, estado, categoria, valorDeCompra, placa, ano, ModeloVan.valueOf(modelo));
                 break;
         }
         return veiculo;

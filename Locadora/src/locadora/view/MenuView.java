@@ -118,11 +118,12 @@ public class MenuView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCadVeiculoActionPerformed
 
     private void btnAluVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAluVeiculoActionPerformed
-        // TODO add your handling code here:
+        menuController.abrirJanelaLocacao();
     }//GEN-LAST:event_btnAluVeiculoActionPerformed
 
     private void btnDevVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevVeiculoActionPerformed
         // TODO add your handling code here:
+        menuController.abrirJanelaDevolver();
     }//GEN-LAST:event_btnDevVeiculoActionPerformed
 
 

@@ -59,9 +59,7 @@ private final String selectAll =
             + "SET rua=?,numero=?,complemento=? WHERE cliente_id=?";    
     private final String delete = "DELETE FROM cliente WHERE id=?";
     private final String deleteAll = "DELETE FROM cliente";
-    
-    
-    
+    private final String selectByNomeSobrenomeCpf = "SELECT*FROM cliente INNER JOIN endereco ON cliente.id = endereco.cliente_id WHERE 1=1 ";
     private final String ressetAI = "ALTER TABLE cliente AUTO_INCREMENT =1;";
     private static ClienteDaoSql dao;
     private ClienteDaoSql(){
@@ -129,6 +127,63 @@ public void add(Cliente cliente) throws Exception {
             return clientes;
         }
     }
+    
+    public List<Cliente> getByNomeSobrenomeCpf(String filtroNome, String filtroSobrenome, String filtroCpf) throws Exception {
+        try (Connection connection = ConnectionFactory.getConnection();) {
+            StringBuilder sql = new StringBuilder(selectByNomeSobrenomeCpf);
+
+            boolean filtrarNome = filtroNome != null && !filtroNome.isEmpty();
+            boolean filtrarSobrenome = filtroSobrenome != null && !filtroSobrenome.isEmpty();
+            boolean filtrarCpf = filtroCpf != null && !filtroCpf.isEmpty();
+
+            // Adiciona condições à consulta SQL
+            if (filtrarNome) {
+                sql.append(" AND nome LIKE ?");
+            }
+            if (filtrarSobrenome) {
+                sql.append(" AND sobrenome LIKE ?");
+            }
+            if (filtrarCpf) {
+                sql.append(" AND cpf = ?");
+            }
+            PreparedStatement stmtLista = connection.prepareStatement(sql.toString());
+            
+            int paramIndex = 1;
+
+            if (filtrarNome){
+                stmtLista.setString(paramIndex++, "%" + filtroNome + "%");
+            }
+            if (filtrarSobrenome){
+                stmtLista.setString(paramIndex++, "%" + filtroSobrenome + "%");
+            }
+            if (filtrarCpf){
+                stmtLista.setString(paramIndex++, filtroCpf);
+            }
+
+            try (ResultSet rs = stmtLista.executeQuery()) {
+
+                List<Cliente> clientes = new ArrayList<>();
+                while (rs.next()) {
+                    long id = rs.getLong("id");
+                    String nome = rs.getString("nome");
+                    String sobrenome = rs.getString("sobrenome");
+                    String rg = rs.getString("rg");
+                    String cpf = rs.getString("cpf");
+                    String rua = rs.getString("rua");
+                    String numero = rs.getString("numero");
+                    String complemento = rs.getString("complemento");
+
+                    Endereco endereco = new Endereco(rua, numero, complemento);
+                    Cliente cliente = new Cliente(id, nome, sobrenome, rg, cpf, endereco);
+
+                    clientes.add(cliente);
+                }
+
+                return clientes;
+            }
+        }
+    }
+    
     @Override
     public Cliente getById(long id) throws Exception{
         try (Connection connection=ConnectionFactory.getConnection();

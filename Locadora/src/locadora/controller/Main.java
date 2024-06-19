@@ -6,10 +6,6 @@
 package locadora.controller;
 
 import javax.swing.JFrame;
-import locadora.model.dao.cliente.ClienteDao;
-import locadora.model.dao.DaoFactory;
-import locadora.model.dao.DaoType;
-import locadora.view.cliente.JanelaClienteView;
 import locadora.view.MenuView;
 
 /**

@@ -19,7 +19,7 @@ public class VeiculoDaoSql implements VeiculoDao {
     private ConnectionFactory connectionFactory;
     
     private final String insert = "INSERT INTO veiculo (marca, estado, categoria, valorDeCompra, placa, ano, tipo, modeloAutomovel, modeloMotocicleta, modeloVan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+    private String selectByTipoMarcaCategoria = "SELECT * FROM veiculo WHERE estado <> 'LOCADO'";
     
     private Connection connection;
 
@@ -81,6 +81,7 @@ public class VeiculoDaoSql implements VeiculoDao {
         String sql = "SELECT * FROM veiculo";
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
+                long id = rs.getLong("id");
                 Marca marca = Marca.valueOf(rs.getString("marca"));
                 Estado estado = Estado.valueOf(rs.getString("estado"));
                 Categoria categoria = Categoria.valueOf(rs.getString("categoria"));
@@ -92,15 +93,15 @@ public class VeiculoDaoSql implements VeiculoDao {
                 switch (tipo) {
                     case "Automovel":
                         ModeloAutomovel modeloAutomovel = ModeloAutomovel.valueOf(rs.getString("modeloAutomovel"));
-                        veiculo = new Automovel(marca, estado, categoria, valorDeCompra, placa, ano, modeloAutomovel);
+                        veiculo = new Automovel(id, marca, estado, categoria, valorDeCompra, placa, ano, modeloAutomovel);
                         break;
                     case "Motocicleta":
                         ModeloMotocicleta modeloMotocicleta = ModeloMotocicleta.valueOf(rs.getString("modeloMotocicleta"));
-                        veiculo = new Motocicleta(marca, estado, categoria, valorDeCompra, placa, ano, modeloMotocicleta);
+                        veiculo = new Motocicleta(id, marca, estado, categoria, valorDeCompra, placa, ano, modeloMotocicleta);
                         break;
                     case "Van":
                         ModeloVan modeloVan = ModeloVan.valueOf(rs.getString("modeloVan"));
-                        veiculo = new Van(marca, estado, categoria, valorDeCompra, placa, ano, modeloVan);
+                        veiculo = new Van(id, marca, estado, categoria, valorDeCompra, placa, ano, modeloVan);
                         break;
                 }
                 veiculos.add(veiculo);
@@ -112,7 +113,8 @@ public class VeiculoDaoSql implements VeiculoDao {
     @Override
     public Veiculo getById(long id) throws Exception {
         String sql = "SELECT * FROM veiculo WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (Connection connection=ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -127,15 +129,15 @@ public class VeiculoDaoSql implements VeiculoDao {
                     switch (tipo) {
                         case "Automovel":
                             ModeloAutomovel modeloAutomovel = ModeloAutomovel.valueOf(rs.getString("modeloAutomovel"));
-                            veiculo = new Automovel(marca, estado, categoria, valorDeCompra, placa, ano, modeloAutomovel);
+                            veiculo = new Automovel(id, marca, estado, categoria, valorDeCompra, placa, ano, modeloAutomovel);
                             break;
                         case "Motocicleta":
                             ModeloMotocicleta modeloMotocicleta = ModeloMotocicleta.valueOf(rs.getString("modeloMotocicleta"));
-                            veiculo = new Motocicleta(marca, estado, categoria, valorDeCompra, placa, ano, modeloMotocicleta);
+                            veiculo = new Motocicleta(id, marca, estado, categoria, valorDeCompra, placa, ano, modeloMotocicleta);
                             break;
                         case "Van":
                             ModeloVan modeloVan = ModeloVan.valueOf(rs.getString("modeloVan"));
-                            veiculo = new Van(marca, estado, categoria, valorDeCompra, placa, ano, modeloVan);
+                            veiculo = new Van(id, marca, estado, categoria, valorDeCompra, placa, ano, modeloVan);
                             break;
                     }
                     return veiculo;
@@ -148,7 +150,9 @@ public class VeiculoDaoSql implements VeiculoDao {
     @Override
     public void update(Veiculo veiculo) throws Exception {
         String sql = "UPDATE veiculo SET marca = ?, estado = ?, categoria = ?, valorDeCompra = ?, placa = ?, ano = ?, tipo = ?, modeloAutomovel = ?, modeloMotocicleta = ?, modeloVan = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+        try (Connection connection=ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
             stmt.setString(1, veiculo.getMarca().name());
             stmt.setString(2, veiculo.getEstado().name());
             stmt.setString(3, veiculo.getCategoria().name());
@@ -188,6 +192,73 @@ public class VeiculoDaoSql implements VeiculoDao {
         String sql = "DELETE FROM veiculo";
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(sql);
+        }
+    }
+    
+    public List<Veiculo> getByTipoMarcaCategoria(String filtroTipo, Marca filtroMarca, Categoria filtroCategoria) throws Exception {
+        try (Connection connection = ConnectionFactory.getConnection();) {
+            StringBuilder sql = new StringBuilder(selectByTipoMarcaCategoria);
+
+            boolean filtrarTipo = filtroTipo != null && !filtroTipo.isEmpty();
+            boolean filtrarMarca = filtroMarca != null;
+            boolean filtrarCategoria = filtroCategoria != null;
+
+            // Adiciona condições à consulta SQL
+            if (filtrarTipo) {
+                sql.append(" AND tipo = ?");
+            }
+            if (filtrarMarca) {
+                sql.append(" AND marca = ?");
+            }
+            if (filtrarCategoria) {
+                sql.append(" AND categoria = ?");
+            }
+            PreparedStatement stmtLista = connection.prepareStatement(sql.toString());
+            
+            int paramIndex = 1;
+
+            if (filtrarTipo){
+                stmtLista.setString(paramIndex++, filtroTipo);
+            }
+            if (filtrarMarca){
+                stmtLista.setString(paramIndex++, filtroMarca.toString());
+            }
+            if (filtrarCategoria){
+                stmtLista.setString(paramIndex++, filtroCategoria.toString());
+            }
+
+            try (ResultSet rs = stmtLista.executeQuery()) {
+
+                List<Veiculo> veiculos = new ArrayList<>();
+                while (rs.next()) {
+                    long id = rs.getLong("id");
+                    Marca marca = Marca.valueOf(rs.getString("marca"));
+                    Estado estado = Estado.valueOf(rs.getString("estado"));
+                    Categoria categoria = Categoria.valueOf(rs.getString("categoria"));
+                    double valorDeCompra = rs.getDouble("valorDeCompra");
+                    String placa = rs.getString("placa");
+                    int ano = rs.getInt("ano");
+                    String tipo = rs.getString("tipo");
+                    Veiculo veiculo = null;
+                    switch (tipo) {
+                        case "Automovel":
+                            ModeloAutomovel modeloAutomovel = ModeloAutomovel.valueOf(rs.getString("modeloAutomovel"));
+                            veiculo = new Automovel(id, marca, estado, categoria, valorDeCompra, placa, ano, modeloAutomovel);
+                            break;
+                        case "Motocicleta":
+                            ModeloMotocicleta modeloMotocicleta = ModeloMotocicleta.valueOf(rs.getString("modeloMotocicleta"));
+                            veiculo = new Motocicleta(id, marca, estado, categoria, valorDeCompra, placa, ano, modeloMotocicleta);
+                            break;
+                        case "Van":
+                            ModeloVan modeloVan = ModeloVan.valueOf(rs.getString("modeloVan"));
+                            veiculo = new Van(id, marca, estado, categoria, valorDeCompra, placa, ano, modeloVan);
+                            break;
+                    }
+                     veiculos.add(veiculo);
+                }
+
+                return veiculos;
+            }
         }
     }
 }

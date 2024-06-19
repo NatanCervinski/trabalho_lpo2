@@ -61,9 +61,9 @@ public class ClienteTableModel extends AbstractTableModel{
             case 2: return customer.getSobrenome();
             case 3: return customer.getRg();
             case 4: return customer.getCpf();
-            case 5: return customer.getEndereco();
-            case 6: return customer.getEndereco();
-            case 7: return customer.getEndereco();
+            case 5: return customer.getEndereco().getRua();
+            case 6: return customer.getEndereco().getNumero();
+            case 7: return customer.getEndereco().getComplemento();
             default : return null;
         }
     }

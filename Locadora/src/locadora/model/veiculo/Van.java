@@ -7,8 +7,8 @@ import locadora.model.cliente.Estado;
 public class Van extends Veiculo {
     private ModeloVan modelo;
 
-    public Van(Marca marca, Estado estado, Categoria categoria, double valorDeCompra, String placa, int ano, ModeloVan modelo) {
-        super(marca, estado, categoria, valorDeCompra, placa, ano);
+    public Van(long id, Marca marca, Estado estado, Categoria categoria, double valorDeCompra, String placa, int ano, ModeloVan modelo) {
+        super(id, marca, estado, categoria, valorDeCompra, placa, ano);
         this.modelo = modelo;
     }
 
