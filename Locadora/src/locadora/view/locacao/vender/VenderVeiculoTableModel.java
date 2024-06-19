@@ -116,6 +116,13 @@ public class VenderVeiculoTableModel extends AbstractTableModel{
     public Veiculo getLocacao(int linhaClicadaParaLocacao) {
         return lista.get(linhaClicadaParaLocacao);
     }
+
+    boolean removeVeiculo(Veiculo veiculo) {
+        int linha = this.lista.indexOf(veiculo);
+        boolean result = this.lista.remove(veiculo);
+        this.fireTableRowsDeleted(linha,linha);//update JTable
+        return result;
+    }
    
   
 }

@@ -15,5 +15,5 @@ import locadora.model.veiculo.Marca;
  * @author Cristhian
  */
 public interface VeiculoDao  extends Dao<Veiculo>{
-    public List<Veiculo> getByTipoMarcaCategoria(String tipo, Marca marca, Categoria categoria) throws Exception;
+    public List<Veiculo> getByTipoMarcaCategoria(String tipo, Marca marca, Categoria categoria, String estado) throws Exception;
 }

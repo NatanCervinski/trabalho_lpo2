@@ -7,12 +7,14 @@ import locadora.controller.cliente.ClienteController;
 import locadora.controller.locacao.DevolverController;
 import locadora.controller.veiculo.VeiculoController;
 import locadora.controller.locacao.LocacaoController;
+import locadora.controller.veiculo.VenderController;
 import locadora.model.dao.cliente.ClienteDao;
 import locadora.model.dao.veiculo.VeiculoDao;
 import locadora.model.dao.DaoFactory;
 import locadora.model.dao.DaoType;
 import locadora.model.dao.locacao.LocacaoDao;
 import locadora.view.locacao.devolver.JanelaDevolverView;
+import locadora.view.locacao.vender.JanelaVenderVeiculoView;
 
 public class MenuController {
     public void abrirJanelaCliente() {
@@ -64,4 +66,18 @@ public class MenuController {
         viewDevolver.pack();
         viewDevolver.setLocationRelativeTo(null);
     }
+    
+    public void abrirJanelaVender(){
+        JanelaVenderVeiculoView viewVender = new JanelaVenderVeiculoView();
+        ClienteDao clienteDao = DaoFactory.getClienteDao();
+        VeiculoDao veiculoDao = DaoFactory.getVeiculoDao();
+        LocacaoDao locacaoDao = DaoFactory.getLocacaoDao();
+        VenderController controller = new VenderController(viewVender, clienteDao, veiculoDao, locacaoDao);
+        
+        viewVender.setVisible(true);
+        viewVender.pack();
+        viewVender.setLocationRelativeTo(null);
+    }
+    
+    
 }

@@ -19,7 +19,7 @@ public class VeiculoDaoSql implements VeiculoDao {
     private ConnectionFactory connectionFactory;
     
     private final String insert = "INSERT INTO veiculo (marca, estado, categoria, valorDeCompra, placa, ano, tipo, modeloAutomovel, modeloMotocicleta, modeloVan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private String selectByTipoMarcaCategoria = "SELECT * FROM veiculo WHERE estado <> 'LOCADO'";
+    private String selectByTipoMarcaCategoria = "SELECT * FROM veiculo WHERE estado <> 'VENDIDO'";
     
     private Connection connection;
 
@@ -195,13 +195,14 @@ public class VeiculoDaoSql implements VeiculoDao {
         }
     }
     
-    public List<Veiculo> getByTipoMarcaCategoria(String filtroTipo, Marca filtroMarca, Categoria filtroCategoria) throws Exception {
+    public List<Veiculo> getByTipoMarcaCategoria(String filtroTipo, Marca filtroMarca, Categoria filtroCategoria, String filtroEstado) throws Exception {
         try (Connection connection = ConnectionFactory.getConnection();) {
             StringBuilder sql = new StringBuilder(selectByTipoMarcaCategoria);
 
             boolean filtrarTipo = filtroTipo != null && !filtroTipo.isEmpty();
             boolean filtrarMarca = filtroMarca != null;
             boolean filtrarCategoria = filtroCategoria != null;
+            boolean filtrarEstado = filtroEstado != null && !filtroEstado.isEmpty();
 
             // Adiciona condições à consulta SQL
             if (filtrarTipo) {
@@ -212,6 +213,11 @@ public class VeiculoDaoSql implements VeiculoDao {
             }
             if (filtrarCategoria) {
                 sql.append(" AND categoria = ?");
+            }
+            if (filtrarEstado){
+                sql.append(" And estado = ?");
+            }else {
+                sql.append( " And estado <> 'LOCADO'");
             }
             PreparedStatement stmtLista = connection.prepareStatement(sql.toString());
             
@@ -225,6 +231,9 @@ public class VeiculoDaoSql implements VeiculoDao {
             }
             if (filtrarCategoria){
                 stmtLista.setString(paramIndex++, filtroCategoria.toString());
+            }
+            if (filtrarEstado){
+                stmtLista.setString(paramIndex++, filtroEstado);
             }
 
             try (ResultSet rs = stmtLista.executeQuery()) {

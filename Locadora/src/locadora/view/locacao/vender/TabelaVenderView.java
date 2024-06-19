@@ -88,4 +88,8 @@ public class TabelaVenderView extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelaVenderView;
     // End of variables declaration//GEN-END:variables
+
+    void excluirVeiculoTabela(Veiculo veiculo) {
+        this.modeloTabelaVender.removeVeiculo(veiculo);
+    }
 }

@@ -4,6 +4,12 @@
  */
 package locadora.view.locacao.vender;
 
+import java.util.List;
+import javax.swing.WindowConstants;
+import locadora.controller.veiculo.VenderController;
+import locadora.model.veiculo.Veiculo;
+import locadora.view.locacao.locar.FormularioPesquisaVeiculoLocacaoView;
+
 /**
  *
  * @author natan
@@ -16,6 +22,30 @@ public class JanelaVenderVeiculoView extends javax.swing.JFrame {
     public JanelaVenderVeiculoView() {
         initComponents();
     }
+    
+    public void setController(VenderController controller){
+        this.formularioPesquisaVeiculoVendaView.setController(controller);
+        this.botaoVenderVeiculoView.setController(controller);
+    }
+    
+    public void initView() {
+        /* Create and display the form */
+        this.tabelaVenderView.setJanelaView(this);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        java.awt.EventQueue.invokeLater(() ->  this.setVisible(true));
+    }
+    
+    public FormularioPesquisaVeiculoVendaView.filtrosVeiculo recuperarFiltrosVeiculo() {
+        return this.formularioPesquisaVeiculoVendaView.recuperarFiltrosVeiculo();
+    }
+
+    public void mostrarListaVeiculos(List<Veiculo> lista) {
+        this.tabelaVenderView.setListaVeiculosTabela(lista);
+    }
+    
+    public Veiculo recuperarVeiculoSelecionado() {
+        return this.tabelaVenderView.recuperarVeiculoSelecionado();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,7 +56,9 @@ public class JanelaVenderVeiculoView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        formularioPesquisaVeiculoVendaView1 = new locadora.view.locacao.vender.FormularioPesquisaVeiculoVendaView();
+        formularioPesquisaVeiculoVendaView = new locadora.view.locacao.vender.FormularioPesquisaVeiculoVendaView();
+        tabelaVenderView = new locadora.view.locacao.vender.TabelaVenderView();
+        botaoVenderVeiculoView = new locadora.view.locacao.vender.BotaoVenderVeiculoView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -34,17 +66,29 @@ public class JanelaVenderVeiculoView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(formularioPesquisaVeiculoVendaView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(formularioPesquisaVeiculoVendaView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(botaoVenderVeiculoView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tabelaVenderView, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(formularioPesquisaVeiculoVendaView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(217, Short.MAX_VALUE))
+                .addComponent(formularioPesquisaVeiculoVendaView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabelaVenderView, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botaoVenderVeiculoView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -86,6 +130,15 @@ public class JanelaVenderVeiculoView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private locadora.view.locacao.vender.FormularioPesquisaVeiculoVendaView formularioPesquisaVeiculoVendaView1;
+    private locadora.view.locacao.vender.BotaoVenderVeiculoView botaoVenderVeiculoView;
+    private locadora.view.locacao.vender.FormularioPesquisaVeiculoVendaView formularioPesquisaVeiculoVendaView;
+    private locadora.view.locacao.vender.TabelaVenderView tabelaVenderView;
     // End of variables declaration//GEN-END:variables
+
+    public void excluirVeiculoTabela(Veiculo veiculo) {
+        this.tabelaVenderView.excluirVeiculoTabela(veiculo);
+    }
+   
+
+
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package locadora.controller.locacao;
+package locadora.controller.veiculo;
 
 import java.util.Calendar;
 import java.util.List;
@@ -20,80 +20,63 @@ import locadora.model.veiculo.Marca;
 import locadora.model.veiculo.Veiculo;
 import locadora.view.locacao.locar.FormularioPesquisaVeiculoLocacaoView.filtrosVeiculo;
 import locadora.view.locacao.locar.JanelaLocacaoView.DadosLocacao;
+import locadora.view.locacao.vender.FormularioPesquisaVeiculoVendaView;
+import locadora.view.locacao.vender.JanelaVenderVeiculoView;
 
 /**
  *
  * @author natan
  */
-public class LocacaoController {
+public class VenderController {
 
-    private JanelaLocacaoView viewLocacao;
+    private JanelaVenderVeiculoView view;
     private ClienteDao clienteDao;
     private VeiculoDao veiculoDao;
     private LocacaoDao locacaoDao;
     
-    public LocacaoController(JanelaLocacaoView viewLocacao, ClienteDao clienteDao, VeiculoDao veiculoDao, LocacaoDao locacaoDao) {
+    public VenderController(JanelaVenderVeiculoView viewVender, ClienteDao clienteDao, VeiculoDao veiculoDao, LocacaoDao locacaoDao) {
         this.clienteDao = clienteDao; // Obtém a instância do DAO
         this.veiculoDao = veiculoDao;
         this.locacaoDao = locacaoDao;
-        this.viewLocacao = viewLocacao;
+        this.view = viewVender;
         initController();
     }
     
     private void initController(){
-        this.viewLocacao.setController(this);
-        this.viewLocacao.initView();
+        this.view.setController(this);
+        this.view.initView();
     }
 
-    public void listarClientes() {
-        try {
-//            view.limparClienteAtualizaralizar();
-            
-            String[] filtrosCliente = viewLocacao.recuperarFiltrosCliente();
-            
-            String nome = filtrosCliente[0];
-            String sobrenome = filtrosCliente[1];
-            String cpf = filtrosCliente[2];
 
-            List<Cliente> lista = this.clienteDao.getByNomeSobrenomeCpf(nome, sobrenome, cpf);
-
-            viewLocacao.mostrarListaClientes(lista);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-    
     public void listarVeiculos() {
         try {
 //            view.limparClienteAtualizaralizar();
             
-            filtrosVeiculo filtrosVeiculo = viewLocacao.recuperarFiltrosVeiculo();
+            FormularioPesquisaVeiculoVendaView.filtrosVeiculo filtrosVeiculo = view.recuperarFiltrosVeiculo();
             
             Marca marca = filtrosVeiculo.getMarca();
             Categoria categoria = filtrosVeiculo.getCategoria();
             String tipo = filtrosVeiculo.getTipo();
 
-            List<Veiculo> lista = this.veiculoDao.getByTipoMarcaCategoria(tipo, marca, categoria, "");
+            List<Veiculo> lista = this.veiculoDao.getByTipoMarcaCategoria(tipo, marca, categoria, "DISPONIVEL");
 
-            viewLocacao.mostrarListaVeiculos(lista);
+            view.mostrarListaVeiculos(lista);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    
-    public void locarVeiculo(){
-        try{
-            Veiculo veiculo = viewLocacao.recuperarVeiculoSelecionado();
-            DadosLocacao dadosLocacao = viewLocacao.recuperarDadosLocacao();
+
+    public void venderVeiculo() {
+        try {
+//            view.limparClienteAtualizaralizar();
+            Veiculo veiculo = view.recuperarVeiculoSelecionado();
+            veiculo.vender();
             
-            int diasLocacao = dadosLocacao.getDias();
-            Calendar dataLocacao = dadosLocacao.getData();
-            Cliente clienteLocacao = dadosLocacao.getCliente();
+            this.veiculoDao.update(veiculo);
             
-            veiculo.locar(diasLocacao, dataLocacao, clienteLocacao);
-            veiculoDao.update(veiculo);
-            locacaoDao.add(veiculo.getLocacao());
-        }catch (Exception ex) {
+
+            view.excluirVeiculoTabela(veiculo);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

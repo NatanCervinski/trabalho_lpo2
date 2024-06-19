@@ -6,6 +6,7 @@ package locadora.view.locacao.vender;
 
 import javax.swing.DefaultComboBoxModel;
 import locadora.controller.locacao.LocacaoController;
+import locadora.controller.veiculo.VenderController;
 import locadora.model.veiculo.Categoria;
 import locadora.model.veiculo.Marca;
 
@@ -22,7 +23,7 @@ public class FormularioPesquisaVeiculoVendaView extends javax.swing.JPanel {
         initComponents();
     }
     
-    public void setController(LocacaoController controller) {
+    public void setController(VenderController controller) {
         this.btnPesquisarVeiculo.addActionListener(e -> controller.listarVeiculos());
     }
     

@@ -110,7 +110,7 @@ public class MenuView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCadClienteActionPerformed
 
     private void btnVenVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenVeiculoActionPerformed
-        // TODO add your handling code here:
+        menuController.abrirJanelaVender();
     }//GEN-LAST:event_btnVenVeiculoActionPerformed
 
     private void btnCadVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadVeiculoActionPerformed
